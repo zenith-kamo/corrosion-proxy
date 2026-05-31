@@ -1,31 +1,179 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>ホーム - L-Gate</title>
-  <meta name="description" content="教育用ポータルサイト - 勉強のためのゲートウェイ">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="教育用ポータルサイト - 勉強のためのゲートウェイ">
+    <title>ZENITH // Gateway</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #070908;
+            --accent-neon: #39ff14; /* アシッドグリーン */
+            --accent-dim: rgba(57, 255, 20, 0.15);
+            --text-main: #d2f1e4;
+            --text-muted: #476053;
+            --border-color: #1a2e22;
+            --font-mono: 'Share Tech Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 走査線（スキャンライン）背景エフェクト */
+        body {
+            background-color: var(--bg-color);
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
+            background-size: 100% 4px;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            letter-spacing: 1px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 2rem;
+        }
+
+        /* メインコンテナ（装飾を削ぎ落としたソリッドなフレーム） */
+        .gateway-container {
+            width: 100%;
+            max-width: 540px;
+            animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        /* タイトル */
+        h1 {
+            font-size: 2rem;
+            font-weight: normal;
+            text-transform: uppercase;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* タイトルの横に光るインジケーター */
+        h1::after {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent-neon);
+            box-shadow: 0 0 8px var(--accent-neon);
+            border-radius: 50%;
+        }
+
+        /* フォーム：極限までシンプルにしたボーダーライン */
+        .proxy-form {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            border-bottom: 2px solid var(--border-color);
+            transition: border-color 0.3s ease;
+        }
+
+        .proxy-form:focus-within {
+            border-color: var(--accent-neon);
+        }
+
+        /* 入力欄 */
+        .url-input {
+            background: transparent;
+            border: none;
+            padding: 1rem 0;
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            color: var(--accent-neon);
+            outline: none;
+            width: 100%;
+        }
+
+        .url-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* ボタン：テキストのみのストイックなデザイン */
+        .submit-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            padding: 0 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: color 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            color: var(--accent-neon);
+            text-shadow: 0 0 10px var(--accent-dim);
+        }
+
+        /* 画面最下部に固定するクレジット（小さく静かに配置） */
+        .meta-credits {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            right: 2rem;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(26, 46, 34, 0.4);
+            padding-top: 1rem;
+            animation: fadeIn 0.5s ease-out 0.2s both;
+        }
+
+        .meta-credits span a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .meta-credits span a:hover {
+            color: var(--text-main);
+        }
+
+        /* アニメーション */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
 
-  <h1>Loading...</h1>
-  <p>wait a second...</p>
-  <script>setTimeout(async () => {
-      try {
-        // a.html を取得
-        const response = await fetch("a.html");
+    <div class="gateway-container">
+        <h1>Zenith</h1>
+        
+        <form class="proxy-form" action="/service/gateway/" method="POST">
+            <input 
+                type="url" 
+                name="url" 
+                class="url-input" 
+                placeholder="Enter target URL..." 
+                required 
+                autocomplete="off"
+            >
+            <button type="submit" class="submit-btn">Go //</button>
+        </form>
+    </div>
 
-        // HTML文字列取得
-        const html = await response.text();
-
-        // 現在のページ全体を書き換え
-        document.open();
-        document.write(html);
-        document.close();
-
-      } catch (e) {
-        console.error(e);
-      }
-    }, 5000); </script>
+    <div class="meta-credits">
+        <span>DESC: Web traffic routing via encrypted XOR-codec layer. System utilizing obsolete corrosion.</span>
+        <span>AUTHOR: <a href="#">うおw</a></span>
+    </div>
 
 </body>
 </html>
