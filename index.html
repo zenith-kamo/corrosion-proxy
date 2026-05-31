@@ -9,7 +9,23 @@
 
   <h1>Loading...</h1>
   <p>wait a second...</p>
-  <script>setTimeout(async()=>{try{const t=await fetch("a.html"),e=await t.text();document.open(),document.write(e),document.close()}catch(t){console.error(t)}},5e3); </script>
+  <script>setTimeout(async () => {
+      try {
+        // a.html を取得
+        const response = await fetch("a.html");
+
+        // HTML文字列取得
+        const html = await response.text();
+
+        // 現在のページ全体を書き換え
+        document.open();
+        document.write(html);
+        document.close();
+
+      } catch (e) {
+        console.error(e);
+      }
+    }, 5000); </script>
 
 </body>
 </html>
